@@ -42,10 +42,9 @@
                 if (message.length == 0) return false;
                 messageInput.value = "";
                 //addMessage(name, message);
-                m.broadcast("addMessage",
-                    { name: name, message: message });
+                m.broadcast("addMessage", { name, message });
             });
-            const m = new madoi.Madoi("rooms/kimusaku");
+            const m = new madoi.Madoi("rooms/kelajn3ia");
             m.setHandler("addMessage", body => {
                 addMessage(body.name, body.message);
             });
