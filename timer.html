@@ -34,14 +34,17 @@
         const logDiv = document.querySelector("#chatLog");
 
         let start;
-        let timeout;
+        let timeout, _timeout;
         // ログ領域にチャットメッセージを追加する関数
         addMessage = function (_start) {
             start = _start;
             if (timeout) {
                 clearTimeout(timeout);
             } 
-            setTimeout(() => _addMessage(start), 1000);
+            if (_timeout) {
+                clearTimeout(_timeout);
+            }
+            timeout = setTimeout(() => _addMessage(start), 1000);
         };
         _addMessage = function (start) {
           const millis = Date.now() - start;
@@ -49,7 +52,7 @@
           const m = Math.floor(millis / 60 / 1000) % 60;
           const h = Math.floor(millis / 60 / 60 / 1000) % 24;
           logDiv.innerHTML = `${(h < 10 ? '0' : '') + h}:${(m < 10 ? '0' : '') + m}:${(s < 10 ? '0' : '') + s}`;
-          timeout = setTimeout(() => _addMessage(start), 1000);
+          _timeout = setTimeout(() => _addMessage(start), 1000);
         };
 
         // Madoiライブラリを使ってサービスに接続する。引数の"room/"以降はセッション識別文字列。
