@@ -14,6 +14,7 @@
     </style>
   </head>
   <body>
+    <h1>分散共有学会タイマー</h1>
     <audio id="ringSound" preload="auto">
       <source src="./Onmtp-Ding05-1.mp3" type="audio/mp3" />
     </audio>
@@ -69,8 +70,8 @@
           const ring = document.querySelector("#ringSound");
           const zacho = document.querySelector("#zacho");
           logDiv.innerHTML = "00:00:00";
+          ring.play();
           if (zacho.checked) {
-            ring.play();
               // addMessage実行。プロキシが実行される。
               addMessage(Date.now());
           } 
