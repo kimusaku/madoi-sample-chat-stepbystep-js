@@ -27,6 +27,7 @@
     <div id="chatLog"></div>
     <script src="https://fungo.kcg.edu/madoi-20211030/js/madoi.js"></script>
     <script>
+        let start = Date.now();
       window.addEventListener("load", () => {
         // HTML内のタグをJavaScriptから操作するために，対応するElementオブジェクトを取り出す。
         const chatForm = document.querySelector("#chatForm");
@@ -35,13 +36,15 @@
         const logDiv = document.querySelector("#chatLog");
 
         // ログ領域にチャットメッセージを追加する関数
-        addMessage = function (name, message) {
+        addMessage = function () {
           const span = document.createElement("span");
           const br = document.createElement("br");
           span.append(name + ": " + message);
-          logDiv.append(span);
-          logDiv.append(br);
-          logDiv.scrollTop = logDiv.scrollHeight;
+          const millis = Date.now() - start;
+          const s = (millis / 1000) % 60;
+          const m = (millis / 60 / 1000) % 60;
+          const h = (millis / 60 / 60 / 1000) % 24;
+          logDiv.text(`${h}:${m}:${s}`);
         };
 
         // Madoiライブラリを使ってサービスに接続する。引数の"room/"以降はセッション識別文字列。
@@ -53,21 +56,21 @@
         addMessage = m.registerShareFunction(addMessage);
 
         // チャットフォームのsubmitイベントで，addMessageを実行する。
-        chatForm.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const name = nameInput.value.trim();
-          const message = messageInput.value.trim();
-          const ring = document.querySelector("#ringSound");
-          ring.play();
+        // chatForm.addEventListener("submit", (e) => {
+        //   e.preventDefault();
+        //   const name = nameInput.value.trim();
+        //   const message = messageInput.value.trim();
+        //   const ring = document.querySelector("#ringSound");
+        //   ring.play();
 
-          if (message.length == 0) return false;
-          messageInput.value = "";
-          // addMessage実行。プロキシが実行される。
-          addMessage(name, message);
-        });
+        //   if (message.length == 0) return false;
+        //   messageInput.value = "";
+        //   // addMessage実行。プロキシが実行される。
+        //   addMessage(name, message);
+        // });
 
         setInterval(() => {
-            addMessage(name, new Date())
+            addMessage()
         }, 1000);
       });
     </script>
