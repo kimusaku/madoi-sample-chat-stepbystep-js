@@ -38,10 +38,11 @@
         // ログ領域にチャットメッセージを追加する関数
         addMessage = function () {
           const millis = Date.now() - start;
-          const s = (millis / 1000) % 60;
-          const m = (millis / 60 / 1000) % 60;
-          const h = (millis / 60 / 60 / 1000) % 24;
+          const s = Math.floor(millis / 1000) % 60;
+          const m = Math.floor(millis / 60 / 1000) % 60;
+          const h = Math.floor(millis / 60 / 60 / 1000) % 24;
           logDiv.innerHTML = `${h}:${m}:${s}`;
+          setTimeout(addMessage, 1000);
         };
 
         // Madoiライブラリを使ってサービスに接続する。引数の"room/"以降はセッション識別文字列。
@@ -53,22 +54,19 @@
         addMessage = m.registerShareFunction(addMessage);
 
         // チャットフォームのsubmitイベントで，addMessageを実行する。
-        // chatForm.addEventListener("submit", (e) => {
-        //   e.preventDefault();
-        //   const name = nameInput.value.trim();
-        //   const message = messageInput.value.trim();
-        //   const ring = document.querySelector("#ringSound");
-        //   ring.play();
+        chatForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const name = nameInput.value.trim();
+          const message = messageInput.value.trim();
+          const ring = document.querySelector("#ringSound");
+          ring.play();
 
-        //   if (message.length == 0) return false;
-        //   messageInput.value = "";
-        //   // addMessage実行。プロキシが実行される。
-        //   addMessage(name, message);
-        // });
+          if (message.length == 0) return false;
+          messageInput.value = "";
+          // addMessage実行。プロキシが実行される。
+          addMessage(name, message);
+        });
 
-        setInterval(() => {
-            addMessage()
-        }, 1000);
       });
     </script>
   </body>
