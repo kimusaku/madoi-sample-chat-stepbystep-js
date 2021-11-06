@@ -20,6 +20,30 @@
         <button type="submit">送信</button>
     </form>
     <div id="chatLog"></div>
+    <script>
+        window.addEventListener("load", () => {
+            const chatForm = document.querySelector("#chatForm");
+            const nameInput = document.querySelector("#name");
+            const messageInput = document.querySelector("#message");
+            const logDiv = document.querySelector("#chatLog");
+            addMessage = function (name, message) {
+                    const span = document.createElement("span");
+                    const br = document.createElement("br");
+                    span.append(name + ": " + message);
+                    logDiv.append(span);
+                    logDiv.append(br);
+                    logDiv.scrollTop = logDiv.scrollHeight;
+                };
+            chatForm.addEventListener("submit", e => {
+                e.preventDefault();
+                const name = nameInput.value.trim();
+                const message = messageInput.value.trim();
+                if (message.length == 0) return false;
+                messageInput.value = "";
+                addMessage(name, message);
+            });
+        });
+    </script>
 </body>
 
 </html>
