@@ -44,13 +44,7 @@
                 addMessage(name, message);
             });
             const m = new madoi.Madoi("rooms/kelajn3ia");
-            const originalAddMessage = addMessage;
-            addMessage = function (name, message) {
-                m.broadcast("addMessage", { name, message });
-            };
-            m.setHandler("addMessage", body => {
-                originalAddMessage(body.name, body.message);
-            });
+            addMessage = m.registerShareFunction(addMessage);
         });
     </script>
 </body>
