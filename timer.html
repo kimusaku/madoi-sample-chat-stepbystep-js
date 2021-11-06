@@ -19,6 +19,7 @@
     </audio>
     <form id="chatForm">
       <div>
+        <input type="checkbox" id="zacho" name="zacho" />
         <button type="submit">開始</button>
       </div>
     </form>
@@ -63,9 +64,12 @@
         chatForm.addEventListener("submit", (e) => {
           e.preventDefault();
           const ring = document.querySelector("#ringSound");
-          ring.play();
-          // addMessage実行。プロキシが実行される。
-          addMessage(Date.now());
+          const zacho = document.querySelector("#zacho");
+          if (zacho.checked) {
+            ring.play();
+              // addMessage実行。プロキシが実行される。
+              addMessage(Date.now());
+          } 
         });
 
       });
