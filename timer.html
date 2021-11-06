@@ -19,9 +19,9 @@
     </audio>
     <form id="chatForm">
       <div>
-        <input id="name" size="8" type="text" value="匿名" />
-        <input id="message" size="20" type="text" placeholder="送信するメッセージ" />
-        <button type="submit">送信</button>
+        <button type="submit">開始</button>
+        <button type="submit">中断</button>
+        <button type="submit">リセット</button>
       </div>
     </form>
     <div id="chatLog"></div>
@@ -63,7 +63,7 @@
           start = Date.now();
           messageInput.value = "";
           // addMessage実行。プロキシが実行される。
-          addMessage(name, message);
+          addMessage();
         });
 
       });
