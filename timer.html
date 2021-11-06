@@ -4,12 +4,9 @@
     <meta charset="utf8" />
     <style>
       #chatLog {
-        overflow: scroll;
-        resize: vertical;
-        min-height: 200px;
-        border: solid 1px;
-        padding: 4;
-        border-radius: 4px;
+          font-size: 48px;
+          text-align: center;
+          padding: 10px;
       }
     </style>
   </head>
@@ -20,8 +17,7 @@
     </audio>
     <form id="chatForm">
       <div>
-        <input type="checkbox" id="zacho" name="zacho" />
-        <button type="submit">開始</button>
+        <button type="submit">タイマー開始</button>
       </div>
     </form>
     <div id="chatLog">00:00:00</div>
@@ -72,10 +68,8 @@
           e.preventDefault();
           const zacho = document.querySelector("#zacho");
           logDiv.innerHTML = "00:00:00";
-          if (zacho.checked) {
-              // addMessage実行。プロキシが実行される。
-              addMessage();　　　//
-          } 
+        　　// addMessage実行。プロキシが実行される。
+        　　addMessage();　　　//
         });
 
       });
