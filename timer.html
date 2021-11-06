@@ -37,14 +37,11 @@
 
         // ログ領域にチャットメッセージを追加する関数
         addMessage = function () {
-          const span = document.createElement("span");
-          const br = document.createElement("br");
-          span.append(name + ": " + message);
           const millis = Date.now() - start;
           const s = (millis / 1000) % 60;
           const m = (millis / 60 / 1000) % 60;
           const h = (millis / 60 / 60 / 1000) % 24;
-          logDiv.text(`${h}:${m}:${s}`);
+          logDiv.innerHTML = `${h}:${m}:${s}`;
         };
 
         // Madoiライブラリを使ってサービスに接続する。引数の"room/"以降はセッション識別文字列。
