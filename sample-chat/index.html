@@ -22,29 +22,36 @@
     <div id="chatLog"></div>
     <script src="https://fungo.kcg.edu/madoi-20211030/js/madoi.js"></script>
     <script>
+        class Chat {
+            constructor() {
+                const chatForm = document.querySelector("#chatForm");
+                const nameInput = document.querySelector("#name");
+                const messageInput = document.querySelector("#message");
+                this.logDiv = document.querySelector("#chatLog");
+                chatForm.addEventListener("submit", e => {
+                    e.preventDefault();
+                    const name = nameInput.value.trim();
+                    const message = messageInput.value.trim();
+                    if (message.length == 0) return false;
+                    messageInput.value = "";
+                    this.addMessage(name, message);
+                });
+            }
+            addMessage(name, message) {
+                const span = document.createElement("span");
+                const br = document.createElement("br");
+                span.append(name + ": " + message);
+                this.logDiv.append(span);
+                this.logDiv.append(br);
+                this.logDiv.scrollTop = this.logDiv.scrollHeight;
+            }
+        }
         window.addEventListener("load", () => {
-            const chatForm = document.querySelector("#chatForm");
-            const nameInput = document.querySelector("#name");
-            const messageInput = document.querySelector("#message");
-            const logDiv = document.querySelector("#chatLog");
-            addMessage = function (name, message) {
-                    const span = document.createElement("span");
-                    const br = document.createElement("br");
-                    span.append(name + ": " + message);
-                    logDiv.append(span);
-                    logDiv.append(br);
-                    logDiv.scrollTop = logDiv.scrollHeight;
-                };
-            chatForm.addEventListener("submit", e => {
-                e.preventDefault();
-                const name = nameInput.value.trim();
-                const message = messageInput.value.trim();
-                if (message.length == 0) return false;
-                messageInput.value = "";
-                addMessage(name, message);
-            });
+            const chat = new Chat();
             const m = new madoi.Madoi("rooms/kelajn3ia");
-            addMessage = m.registerShareFunction(addMessage);
+            m.register(chat, [
+                { method: chat.addMessage, share: {} }
+            ]);
         });
     </script>
 </body>
