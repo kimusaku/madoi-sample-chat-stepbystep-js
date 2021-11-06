@@ -1,65 +1,71 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf8">
-<style>
-#chatLog {
-    overflow: scroll;
-    resize: vertical;
-    min-height: 200px;
-    border: solid 1px;
-    padding: 4;
-    border-radius: 4px;
-}
-</style>
-</head>
-<body>
-<form id="chatForm">
-    <div>
-        <input id="name" size="8" type="text" value="匿名">
-        <input id="message" size="20" type="text" placeholder="送信するメッセージ">
+  <head>
+    <meta charset="utf8" />
+    <style>
+      #chatLog {
+        overflow: scroll;
+        resize: vertical;
+        min-height: 200px;
+        border: solid 1px;
+        padding: 4;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="ringSound" preload="auto">
+      <source src="http://ws.cs.kobe-u.ac.jp/~masa-n/data/audio/Onmtp-Ding05-1.mp3" type="audio/mp3" />
+    </audio>
+    <form id="chatForm">
+      <div>
+        <input id="name" size="8" type="text" value="匿名" />
+        <input id="message" size="20" type="text" placeholder="送信するメッセージ" />
         <button type="submit">送信</button>
-    </div>
-</form>
-<div id="chatLog"></div>
-<script src="https://fungo.kcg.edu/madoi-20211030/js/madoi.js"></script>
-<script>
-window.addEventListener("load", ()=>{
-    // HTML内のタグをJavaScriptから操作するために，対応するElementオブジェクトを取り出す。
-    const chatForm = document.querySelector("#chatForm");
-    const nameInput = document.querySelector("#name");
-    const messageInput = document.querySelector("#message");
-    const logDiv = document.querySelector("#chatLog");
+      </div>
+    </form>
+    <div id="chatLog"></div>
+    <script src="https://fungo.kcg.edu/madoi-20211030/js/madoi.js"></script>
+    <script>
+      window.addEventListener("load", () => {
+        // HTML内のタグをJavaScriptから操作するために，対応するElementオブジェクトを取り出す。
+        const chatForm = document.querySelector("#chatForm");
+        const nameInput = document.querySelector("#name");
+        const messageInput = document.querySelector("#message");
+        const logDiv = document.querySelector("#chatLog");
 
-   // ログ領域にチャットメッセージを追加する関数
-   addMessage = function(name, message){
-        const span = document.createElement("span");
-        const br = document.createElement("br");
-        span.append(name + ": " + message);
-        logDiv.append(span);
-        logDiv.append(br);
-        logDiv.scrollTop = logDiv.scrollHeight;
-    };
+        // ログ領域にチャットメッセージを追加する関数
+        addMessage = function (name, message) {
+          const span = document.createElement("span");
+          const br = document.createElement("br");
+          span.append(name + ": " + message);
+          logDiv.append(span);
+          logDiv.append(br);
+          logDiv.scrollTop = logDiv.scrollHeight;
+        };
 
-    // Madoiライブラリを使ってサービスに接続する。引数の"room/"以降はセッション識別文字列。
-    const m = new madoi.Madoi("rooms/group-d");
+        // Madoiライブラリを使ってサービスに接続する。引数の"room/"以降はセッション識別文字列。
+        const m = new madoi.Madoi("rooms/group-d");
 
-    // addMessage関数を共有関数として登録する。
-    // プロキシが返されるので，それでaddMessageを置き換えておく。
-    // ハンドラは内部で自動的に作成され，サーバからメッセージが届くと本来のaddMessageが実行される。
-    addMessage = m.registerShareFunction(addMessage);
+        // addMessage関数を共有関数として登録する。
+        // プロキシが返されるので，それでaddMessageを置き換えておく。
+        // ハンドラは内部で自動的に作成され，サーバからメッセージが届くと本来のaddMessageが実行される。
+        addMessage = m.registerShareFunction(addMessage);
 
-    // チャットフォームのsubmitイベントで，addMessageを実行する。
-    chatForm.addEventListener("submit", e => {
-        e.preventDefault();
-        const name = nameInput.value.trim();
-        const message = messageInput.value.trim();
-        if(message.length == 0) return false;
-        messageInput.value = "";
-        // addMessage実行。プロキシが実行される。
-        addMessage(name, message);
-    });
-});
-</script>
-</body>
+        // チャットフォームのsubmitイベントで，addMessageを実行する。
+        chatForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const name = nameInput.value.trim();
+          const message = messageInput.value.trim();
+          const ring = document.querySelector("#ringSound");
+          ring.play();
+
+          if (message.length == 0) return false;
+          messageInput.value = "";
+          // addMessage実行。プロキシが実行される。
+          addMessage(name, message);
+        });
+      });
+    </script>
+  </body>
 </html>
