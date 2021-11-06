@@ -65,6 +65,10 @@
           // addMessage実行。プロキシが実行される。
           addMessage(name, message);
         });
+
+        setInterval(() => {
+            addMessage(name, new Date())
+        }, 1000);
       });
     </script>
   </body>
