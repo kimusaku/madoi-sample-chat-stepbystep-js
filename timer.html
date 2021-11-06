@@ -23,7 +23,7 @@
         <button type="submit">開始</button>
       </div>
     </form>
-    <div id="chatLog"></div>
+    <div id="chatLog">00:00:00</div>
     <script src="https://fungo.kcg.edu/madoi-20211030/js/madoi.js"></script>
     <script>
       window.addEventListener("load", () => {
@@ -68,6 +68,7 @@
           e.preventDefault();
           const ring = document.querySelector("#ringSound");
           const zacho = document.querySelector("#zacho");
+          logDiv.innerHTML = "00:00:00";
           if (zacho.checked) {
             ring.play();
               // addMessage実行。プロキシが実行される。
