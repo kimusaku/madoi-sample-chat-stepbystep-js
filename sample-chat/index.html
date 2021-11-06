@@ -20,6 +20,7 @@
         <button type="submit">送信</button>
     </form>
     <div id="chatLog"></div>
+    <script src="https://fungo.kcg.edu/madoi-20211030/js/madoi.js"></script>
     <script>
         window.addEventListener("load", () => {
             const chatForm = document.querySelector("#chatForm");
@@ -40,7 +41,13 @@
                 const message = messageInput.value.trim();
                 if (message.length == 0) return false;
                 messageInput.value = "";
-                addMessage(name, message);
+                //addMessage(name, message);
+                m.broadcast("addMessage",
+                    { name: name, message: message });
+            });
+            const m = new madoi.Madoi("rooms/kimusaku");
+            m.setHandler("addMessage", body => {
+                addMessage(body.name, body.message);
             });
         });
     </script>
