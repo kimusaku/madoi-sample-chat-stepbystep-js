@@ -39,6 +39,9 @@
         // ログ領域にチャットメッセージを追加する関数
         addMessage = function () {
             start = Date.now();
+            const ring = document.querySelector("#ringSound");
+            ring.play();
+
             if (timeout) {
                 clearTimeout(timeout);
             } 
@@ -52,7 +55,7 @@
           const s = Math.floor(millis / 1000) % 60;
           const m = Math.floor(millis / 60 / 1000) % 60;
           const h = Math.floor(millis / 60 / 60 / 1000) % 24;
-          logDiv.innerHTML = `${(h < 10 ? '0' : '') + h}:${(m < 10 ? '0' : '') + m}:${(s < 10 ? '0' : '') + s}<br>${start} ${millis}<br>`;
+          logDiv.innerHTML = `${(h < 10 ? '0' : '') + h}:${(m < 10 ? '0' : '') + m}:${(s < 10 ? '0' : '') + s}`;
           _timeout = setTimeout(() => _addMessage(start), 1000);
         };
 
@@ -67,13 +70,11 @@
         // チャットフォームのsubmitイベントで，addMessageを実行する。
         chatForm.addEventListener("submit", (e) => {
           e.preventDefault();
-          const ring = document.querySelector("#ringSound");
           const zacho = document.querySelector("#zacho");
           logDiv.innerHTML = "00:00:00";
-          ring.play();
           if (zacho.checked) {
               // addMessage実行。プロキシが実行される。
-              addMessage();　　　//要変更？
+              addMessage();　　　//
           } 
         });
 
