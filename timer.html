@@ -27,7 +27,7 @@
     <div id="chatLog"></div>
     <script src="https://fungo.kcg.edu/madoi-20211030/js/madoi.js"></script>
     <script>
-        let start = Date.now();
+        let start;
       window.addEventListener("load", () => {
         // HTML内のタグをJavaScriptから操作するために，対応するElementオブジェクトを取り出す。
         const chatForm = document.querySelector("#chatForm");
@@ -41,7 +41,7 @@
           const s = Math.floor(millis / 1000) % 60;
           const m = Math.floor(millis / 60 / 1000) % 60;
           const h = Math.floor(millis / 60 / 60 / 1000) % 24;
-          logDiv.innerHTML = `${h}:${m}:${s}`;
+          logDiv.innerHTML = `${(h < 10 ? '0' : '') + h}:${(m < 10 ? '0' : '') + m}:${(s < 10 ? '0' : '') + s}`;
           setTimeout(addMessage, 1000);
         };
 
@@ -60,8 +60,7 @@
           const message = messageInput.value.trim();
           const ring = document.querySelector("#ringSound");
           ring.play();
-
-          if (message.length == 0) return false;
+          start = Date.now();
           messageInput.value = "";
           // addMessage実行。プロキシが実行される。
           addMessage(name, message);
