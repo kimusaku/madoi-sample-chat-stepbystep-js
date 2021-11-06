@@ -41,12 +41,15 @@
                 const message = messageInput.value.trim();
                 if (message.length == 0) return false;
                 messageInput.value = "";
-                //addMessage(name, message);
-                m.broadcast("addMessage", { name, message });
+                addMessage(name, message);
             });
             const m = new madoi.Madoi("rooms/kelajn3ia");
+            const originalAddMessage = addMessage;
+            addMessage = function (name, message) {
+                m.broadcast("addMessage", { name, message });
+            };
             m.setHandler("addMessage", body => {
-                addMessage(body.name, body.message);
+                originalAddMessage(body.name, body.message);
             });
         });
     </script>
