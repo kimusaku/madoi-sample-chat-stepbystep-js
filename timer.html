@@ -25,7 +25,6 @@
     <div id="chatLog"></div>
     <script src="https://fungo.kcg.edu/madoi-20211030/js/madoi.js"></script>
     <script>
-        let start;
       window.addEventListener("load", () => {
         // HTML内のタグをJavaScriptから操作するために，対応するElementオブジェクトを取り出す。
         const chatForm = document.querySelector("#chatForm");
@@ -34,13 +33,13 @@
         const logDiv = document.querySelector("#chatLog");
 
         // ログ領域にチャットメッセージを追加する関数
-        addMessage = function () {
+        addMessage = function (start) {
           const millis = Date.now() - start;
           const s = Math.floor(millis / 1000) % 60;
           const m = Math.floor(millis / 60 / 1000) % 60;
           const h = Math.floor(millis / 60 / 60 / 1000) % 24;
           logDiv.innerHTML = `${(h < 10 ? '0' : '') + h}:${(m < 10 ? '0' : '') + m}:${(s < 10 ? '0' : '') + s}`;
-          setTimeout(addMessage, 1000);
+          setTimeout(() => addMessage(start), 1000);
         };
 
         // Madoiライブラリを使ってサービスに接続する。引数の"room/"以降はセッション識別文字列。
@@ -58,10 +57,9 @@
           const message = messageInput.value.trim();
           const ring = document.querySelector("#ringSound");
           ring.play();
-          start = Date.now();
           messageInput.value = "";
           // addMessage実行。プロキシが実行される。
-          addMessage();
+          addMessage(Date.now());
         });
 
       });
